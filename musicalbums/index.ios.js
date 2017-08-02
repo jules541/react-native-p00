@@ -1,14 +1,17 @@
 //import library 
 import React, { Component } from 'react';
-import { AppRegistry } from 'react-native';
-import Header from './src/components/header';
+import { AppRegistry, View } from 'react-native';
+import Header from './src/components/Header';
+import AlbumList from './src/components/AlbumList';
 
 //make a component 
 export default class App extends Component {
   render() {  
     return (
-        <Header headerText='Album!!!' /> 
-        
+        <View>
+          <Header headerText='Album!!!' /> 
+          <AlbumList />
+        </View>
     );
   }
 }
