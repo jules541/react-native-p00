@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
-import { Text, View, Image, Linking } from 'react-native';
+import { Text, Image, Linking, TouchableOpacity } from 'react-native';
 import Card from './Card';
 import CardSection from './CardSection';
 import Button from './Button';
 
 export default class AlbumDetail extends Component {
-  render() {
+  
+  constructor(props) {
+    super(props);
+    this.state = { 
+      isTouchingArtist: false
+    };
+  }
+  
+  onTouch() {
+    this.setState({
+      isTouchingArtist: !this.state.isTouchingArtist
+    });
+    //if the user presses the artist name display the album name else stay as the artist name 
+  }
+  // example() {
+  //   return (Linking.openURL('https://www.youtube.com/user/TravisScottVEVO').catch(err => console.log('error has occured', err)));
+  // }
+
+render() {
     const {
       headerContentStyles,
-      thumbnailStyle,
-      thumbnailContainerStyle,
       headerTextStyles,
       imageStyle
 
@@ -17,16 +33,12 @@ export default class AlbumDetail extends Component {
     return (
     <Card>
       <CardSection>
-          <View style={thumbnailContainerStyle}>
-            <Image 
-            style={thumbnailStyle} 
-            source={{ uri: this.props.album.thumbnail_image }} 
-            />
-          </View>
-          <View style={headerContentStyles}>
-              <Text>{this.props.album.artist}</Text>
-              <Text style={headerTextStyles}>{this.props.album.title}</Text>
-          </View>
+
+          <TouchableOpacity style={headerContentStyles} onPress={() => this.onTouch()}>
+            <Text style={headerTextStyles}> 
+              {this.state.isTouchingArtist ? this.props.album.title : this.props.album.artist}  
+            </Text>
+          </TouchableOpacity>
       </CardSection>
 
       <CardSection>
@@ -34,36 +46,34 @@ export default class AlbumDetail extends Component {
       </CardSection>
 
       <CardSection>
-        <Button click={() => Linking.openURL(this.props.album.url)} textInside='Buy me!!! ' />
+        <Button  
+        click={() => Linking.openURL(this.props.album.url)} textInside='Stream' 
+        />
       </CardSection>
     </Card>
 
     );
   }
 }
+
 const styles = {
     headerContentStyles: {
       flexDirection: 'column',
-      justifyContent: 'space-around'
-    },
-    headerTextStyles: {
-        fontSize: 18
-    },
-    thumbnailStyle: {
-        height: 50,
-        width: 50, 
-    },
-    thumbnailContainerStyle: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 10,
-        marginRight: 10
+      justifyContent: 'center',
+      alignItems: 'center'
 
     },
-      imageStyle: {
+    headerTextStyles: {
+      fontSize: 21,
+      fontWeight: 'bold'
+    },
+    hiddenStyles: {
+      display: 'none'  
+    },
+    imageStyle: {
         height: 300,
         flex: 1,
         width: null
 
-      }
+    }
 };
